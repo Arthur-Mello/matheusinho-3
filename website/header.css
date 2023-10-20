@@ -1,0 +1,31 @@
+header{
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+background-color:greenyellow;
+}
+
+header+div.blankHeaderSpace{
+    height: 75px;
+}
+
+header>div{
+    display: flex;
+    gap:10px;
+    align-items: center;
+   
+}
+
+header>div>h1{
+    font-size:25px;
+    font-weight:bold;
+}
+
+header>div>img{
+ height: 50px;
+    margin-left: 10px;
+}
+
