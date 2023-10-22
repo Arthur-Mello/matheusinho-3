@@ -8,6 +8,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
+   
 }
 
 main>form {
@@ -15,6 +16,8 @@ main>form {
     border-radius: 10px;
     border: 1px solid var(--grey); 
     background-color: var(--blue); 
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 main>form>h2 {
@@ -22,7 +25,7 @@ main>form>h2 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
-    color: #FFF; 
+    color: white; 
 }
 
 main>form>div {
@@ -36,7 +39,7 @@ main>form>div>label {
     padding-bottom: 5px;
     padding-top: 5px;
     font-weight: bold;
-    color: #FFF; 
+    color: white; 
 }
 
 main>form>div>input {
@@ -53,12 +56,13 @@ main>form a.btn{
 
 main>form a.btn, main>form>div button[type="submit"] {
     background-color: var(--grey);
-    color: #FFF;
+    color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     margin: 10px 0; 
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
 }
 
 main>form a.btn:hover, main>form>div button[type="submit"]:hover {

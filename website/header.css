@@ -33,7 +33,7 @@ header {
   header > nav > a.btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: black; 
+    background-color: var(--grey); 
     color: white; 
     text-decoration: none;
     border: 2px solid white;
@@ -51,7 +51,7 @@ header {
 }
   
   header > nav > a.btn:hover {
-    background-color: var(--grey); 
+    background-color: rgb(115, 115, 115); 
   }
   
   header > nav > a.btn:active {
