@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="PT-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="cssReset.css" rel="stylesheet" type="text/css" />
+    <link href="login.css" rel="stylesheet" type="text/css" />
+    <link href="header.css" rel="stylesheet" type="text/css" />
+    <link href="footer.css" rel="stylesheet" type="text/css" />
+    <title>Login</title>
+</head>
+
+<body>
+    <header>
+        <div>
+            <img src="https://www.adobe.com/br/express/create/media_18d6e404c2102cfae907dbaebb08d64fea7eee019.jpeg?width=400&format=jpeg&optimize=medium"
+                alt="Logotipo" />
+            <h1>Sistema Hospitalar</h1>
+        </div>
+        <nav>
+            <a href="cadastrar.html" class="btn" draggable="false">Cadastrar</a>
+        </nav>
+    </header>
+    <div class="blankHeaderSpace"></div>
+    <main>
+
+        <form onsubmit="return false;">
+            <h2>LOGIN</h2>
+            <div class="formEmail">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="teste@gmail.com">
+            </div>
+            <div>
+                <label for="password">Senha</label>
+                <input type="password" name="password" id="password">
+            </div>
+
+            <div class="btn-container">
+                <a href="recuperarSenha.html" class="btn" draggable="false">Recuperar senha</a>
+                <button type="submit">Enviar</button>
+            </div>
+
+            </div>
+        </form>
+
+
+    </main>
+    <footer>
+        <p>Página desenvolvida por Matheus Vinícius e Arthur</p>
+    </footer>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            function handleLinkDrag(link) {
+                link.addEventListener("dragstart", function () {
+                    link.style.backgroundColor = "";
+                });
+            }
+
+
+            const recuperarSenhaLink = document.querySelector(".btn-container > a.btn");
+            handleLinkDrag(recuperarSenhaLink);
+
+
+            const cadastrarLink = document.querySelector("header nav a.btn");
+            handleLinkDrag(cadastrarLink);
+        });
+
+
+    </script>
+</body>
+
+</html>
