@@ -108,6 +108,18 @@ a {
 .form_container.active .login_form {
   display: none;
 }
+
+.form_container.active .recover_form,.form_container .recover_form {
+  display: none;
+}
+.form_container.recover .recover_form{
+  display:block;
+}
+.form_container.recover.active .signup_form{
+  display:none;
+}
+
+
 .form_close {
   position: absolute;
   top: 10px;

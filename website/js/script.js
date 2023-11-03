@@ -5,11 +5,14 @@ const formOpenBtn = document.querySelector("#form-open"),
   signupBtn = document.querySelector("#signup"),
   signupBtnMainPage = document.querySelector("#signupMain"),
   loginBtn = document.querySelector("#login"),
-  pwShowHide = document.querySelectorAll(".pw_hide");
+  loginBtn2 = document.querySelector("#login2"),
+  pwShowHide = document.querySelectorAll(".pw_hide"),
+  recoverPass = document.querySelector(".forgot_pw");
 
 formOpenBtn.addEventListener("click", () => home.classList.add("show"));
 formCloseBtn.addEventListener("click", () => home.classList.remove("show"));
 signupBtnMainPage.addEventListener("click", () => home.classList.add("show")); 
+
 
 pwShowHide.forEach((icon) => {
   icon.addEventListener("click", () => {
@@ -23,22 +26,37 @@ pwShowHide.forEach((icon) => {
     }
   });
 });
-
+console.log(recoverPass)
 signupBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.add("active");
+  formContainer.classList.remove("recover");
 });
 
 signupBtnMainPage.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.add("active");
+  formContainer.classList.remove("recover");
 });
 
 loginBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.remove("active");
+  formContainer.classList.remove("recover");
+});
+loginBtn2.addEventListener("click", (e) => {
+  e.preventDefault();
+  formContainer.classList.remove("active");
+  formContainer.classList.remove("recover");
 });
 formOpenBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.remove("active");
+  formContainer.classList.remove("recover");
+});
+
+recoverPass.addEventListener("click", (e) => {
+  e.preventDefault();
+  formContainer.classList.add("active");
+  formContainer.classList.add("recover");
 });
