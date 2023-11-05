@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../models');
 
 const User = require('../models/user')(sequelize, DataTypes);
+const bcrypt = require('bcrypt');
 
 async function createUser(userData) {
     try {
@@ -22,7 +23,8 @@ async function createUser(userData) {
         if (userData.confirmPassword != userData.password) {
             return "senhasDiferentes";
         }
-        const user = await User.create(userData);
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        const user = await User.create({ ...userData, password: hashedPassword });
         return "success";
     } catch (error) {
         return "error";
