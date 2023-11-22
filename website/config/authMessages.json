@@ -1,7 +1,9 @@
 {
     "success": "Usuário cadastrado com sucesso.",
     "error": "Usuário não foi cadastrado por algum erro interno.",
-    "emailEmUso":"Este email já está em uso.",
-    "senhaCurta":"Senha muito curta, deve ter pelo menos 8 caracteres.",
-    "senhasDiferentes":"Senha de confirmação diferente da senha cadastrada"
+    "erroremailEmUso": "Este email já está em uso.",
+    "errorsenhaCurta": "Senha muito curta, deve ter pelo menos 8 caracteres.",
+    "errorsenhasDiferentes": "Senha de confirmação diferente da senha cadastrada.",
+    "errorinvalido": "Email ou senha inválido, certifique-se que o seu usuário esteja cadastrado.",
+    "errornaologado": "Usuario não está logado."
 }

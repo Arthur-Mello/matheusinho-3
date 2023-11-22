@@ -1,111 +1,129 @@
 <!DOCTYPE html>
 
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema Hospitalar</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/home.css" />
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/form.css" />
-    <link rel="stylesheet" href="/css/popup.css"/>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Hospitalar</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/home.css" />
+  <link rel="stylesheet" href="/css/header.css" />
+  <link rel="stylesheet" href="/css/form.css" />
+  <link rel="stylesheet" href="/css/popup.css" />
 
 
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-  </head>
-  <body>
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+</head>
 
-    <header class="header">
-      <nav class="nav">
-    
-        <a href="#" class="nav_logo">Sistema Hospitalar</a>
+<body>
 
-     <div>
+  <header class="header">
+    <nav class="nav">
+
+      <a href="#" class="nav_logo">Sistema Hospitalar</a>
+
+      <div>
         <button class="button" id="form-open">Login</button>
         <button class="button" id="signupMain">Cadastro</button>
       </div>
-      </nav>
-    </header>
+    </nav>
+  </header>
 
- 
-    <section class="home">
-      <div class="form_container">
-        <i class="uil uil-times form_close"></i>
-        
-        <div class="form login_form">
-          <form action="#">
-            <h2>Login</h2>
 
-            <div class="input_box">
-              <input type="email" placeholder="teste@gmail.com" required />
-              <i class="uil uil-envelope-alt email"></i>
-            </div>
-            <div class="input_box">
-              <input type="password" placeholder="Insira a sua senha" required />
-              <i class="uil uil-lock password"></i>
-              <i class="uil uil-eye-slash pw_hide"></i>
-            </div>
+  <section class="home">
+    <div class="form_container">
+      <i class="uil uil-times form_close"></i>
 
-            <div class="option_field">
-                
-              <a href="#" class="forgot_pw">Esqueceu a sua senha?</a>
-            </div>
+      <div class="form login_form">
+        <form action="/login" method="POST">
+          <h2>Login</h2>
 
-            <button class="button">Login</button>
+          <div class="input_box">
+            <input name="email" type="email" placeholder="teste@gmail.com" required />
+            <i class="uil uil-envelope-alt email"></i>
+          </div>
+          <div class="input_box">
+            <input name="password" type="password" placeholder="Insira a sua senha" required />
+            <i class="uil uil-lock password"></i>
+            <i class="uil uil-eye-slash pw_hide"></i>
+          </div>
 
-            <div class="login_signup">Não tem uma conta? <a href="#" id="signup">Cadastrar</a></div>
-          </form>
+          <div class="option_field">
+
+            <a href="#" class="forgot_pw">Esqueceu a sua senha?</a>
+          </div>
+
+          <button class="button">Login</button>
+
+          <div class="login_signup">Não tem uma conta? <a href="#" id="signup">Cadastrar</a></div>
+        </form>
+      </div>
+
+      <div class="form signup_form">
+        <form action="/cadastrar" method="POST">
+          <h2>Cadastro</h2>
+          <div class="input_box">
+            <input type="text" name="username" placeholder="Insira o seu nome" required minlength="2" />
+          </div>
+          <div class="input_box">
+            <input type="email" name="email" placeholder="teste@gmail.com" required />
+            <i class="uil uil-envelope-alt email"></i>
+          </div>
+          <div class="input_box">
+            <input type="password" name="password" id="password" placeholder="Crie a sua senha" required
+              minlength="8" />
+            <i class="uil uil-lock password"></i>
+            <i class="uil uil-eye-slash pw_hide"></i>
+          </div>
+          <div class="input_box">
+            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Reescreva a sua senha"
+              required minlength="8" />
+            <i class="uil uil-lock password"></i>
+            <i class="uil uil-eye-slash pw_hide"></i>
+          </div>
+          <p id="passwordError" style="color: red;"></p>
+
+          <button class="button" type="submit">Cadastrar</button>
+
+          <div class="login_signup">Já tem uma conta? <a href="#" id="login">Login</a></div>
+        </form>
+      </div>
+
+      <div class="form recover_form">
+        <form action="#">
+          <h2>Recuperar Senha</h2>
+
+          <div class="input_box">
+            <input type="email" placeholder="teste@gmail.com" required />
+            <i class="uil uil-envelope-alt email"></i>
+          </div>
+
+          <button class="button">Recuperar</button>
+
+          <div class="login_signup">Lembrou sua senha? <a href="#" id="login2">Login</a></div>
+        </form>
+
+      </div>
+    </div>
+    <div class="title">
+      <h2>Criadores</h2>
+      <div class="images" style="">
+        <div>
+          <p>Arthur Nogueira</p>
+          <img src="/imgs/arth.jpg" alt="Arthur Nogueira">
         </div>
-
-        <div class="form signup_form">
-          <form action="/cadastrar" method="POST">
-            <h2>Cadastro</h2>
-            <div class="input_box">
-              <input type="text"name="username" placeholder="Insira o seu nome" required minlength="2"/>
-            </div>
-            <div class="input_box">
-              <input type="email" name="email" placeholder="teste@gmail.com" required />
-              <i class="uil uil-envelope-alt email"></i>
-            </div>
-            <div class="input_box">
-              <input type="password" name="password" id="password" placeholder="Crie a sua senha" required minlength="8" />
-              <i class="uil uil-lock password"></i>
-              <i class="uil uil-eye-slash pw_hide"></i>
-            </div>
-            <div class="input_box">
-              <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Reescreva a sua senha" required minlength="8" />
-              <i class="uil uil-lock password"></i>
-              <i class="uil uil-eye-slash pw_hide"></i>
-            </div>
-            <p id="passwordError" style="color: red;"></p>
-
-            <button class="button" type="submit">Cadastrar</button>
-
-            <div class="login_signup">Já tem uma conta? <a href="#" id="login">Login</a></div>
-          </form>
-        </div>
-
-        <div class="form recover_form">
-          <form action="#">
-            <h2>Recuperar Senha</h2>
-
-            <div class="input_box">
-              <input type="email" placeholder="teste@gmail.com" required />
-              <i class="uil uil-envelope-alt email"></i>
-            </div>
-
-            <button class="button">Recuperar</button>
-
-            <div class="login_signup">Lembrou sua senha? <a href="#" id="login2">Login</a></div>
-          </form>
-
+        <div>
+          <p>Matheus Vinícius</p>
+          <img src="/imgs/Math.jpg" alt="Arthur Nogueira">
         </div>
       </div>
-    </section>
-    <script src="/js/forms.js"></script>
-    <script src="/js/mensagens.js"></script>
-    <script src="/js/senha.js"></script>
-  </body>
+    </div>
+  </section>
+  <script src="/js/forms.js"></script>
+  <script src="/js/mensagens.js"></script>
+  <script src="/js/senha.js"></script>
+</body>
+
 </html>

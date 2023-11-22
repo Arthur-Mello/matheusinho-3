@@ -22,6 +22,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      permissionLevel: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -32,8 +36,8 @@ module.exports = {
       },
     });
   },
-  
-  
+
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
   }
