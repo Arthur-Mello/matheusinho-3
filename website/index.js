@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const authenticateToken = require('./middleware/authenticateToken');
 const app = express();
 const bd = require('./db');
 const router = require('./routes');
@@ -22,5 +21,4 @@ app.listen(8000, () => {
     console.log("Servidor rodando");
 });
 app.use(cookieParser());
-app.use(authenticateToken);
 app.use(router);
