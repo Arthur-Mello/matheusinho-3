@@ -4,7 +4,7 @@ const passwordInput = document.getElementById("password");
   
   confirmPasswordInput.addEventListener("input", () => {
     if (confirmPasswordInput.value === passwordInput.value) {
-      passwordError.textContent = ""; // Passwords match, no error message
+      passwordError.textContent = "";
     } else {
       passwordError.textContent = "As senhas não coincidem.";
     }

@@ -17,18 +17,24 @@ function authenticateToken(req, res, next) {
     }
 
     if (req._parsedUrl && req._parsedUrl.pathname !== "/login" && !token) {
-        return res.redirect(`/?message=errornaologado`);
+        res.redirect(`/?message=errornaologado`);
+        return; // Add a return statement to exit the function after redirect
     }
 
     jwt.verify(token, config.secretKey, (err, user) => {
         if (err) {
-            console.log('Error verifying token:', err);
-            return res.redirect(`/?message=error`);
+            if (err.name === 'TokenExpiredError') {
+                console.log('Token expired:', err.expiredAt);
+                res.redirect(`/?message=tokenexpired`);
+            } else {
+                console.log('Error verifying token:', err);
+                res.redirect(`/?message=error`);
+            }
+            return; // Add a return statement to exit the function after redirect
         }
 
         console.log('User authenticated:', user);
         req.user = user;
-        console.log(req.user)
         next(); // Continue to the next middleware or route handler
     });
 }

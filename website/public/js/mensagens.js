@@ -6,7 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     "errorsenhaCurta": "Senha muito curta, deve ter pelo menos 8 caracteres.",
     "errorsenhasDiferentes": "Senha de confirmação diferente da senha cadastrada",
     "errorinvalido": "Email ou senha inválido, certifique-se que o seu usuário esteja cadastrado.",
-    "errornaologado": "Usuario não está logado."
+    "errornaologado": "Usuario não está logado.",
+    "errortokenExpirado": "Tempo de sessão acabado, por favor, faça login novamente.",
+    "logout": "Deslogado com sucesso!",
+    "errorpermissao": "Você não tem acesso a essa tela"
   };
 
   const popupContainer = document.createElement("div");

@@ -5,6 +5,11 @@ const jwt = require("jsonwebtoken");
 const User = require('../models/user')(sequelize, DataTypes);
 const bcrypt = require('bcrypt');
 
+const permissionLevel = {
+    0: "Paciente",
+    1: "Médico",
+    2: "Admin"
+}
 
 async function createUser(userData) {
     try {
@@ -47,13 +52,12 @@ async function loginUser(userData) {
                 email: userData.email,
             },
         });
-        console.log(!user || !(await bcrypt.compare(userData.password, user.password)));
+        
         if (!user || !(await bcrypt.compare(userData.password, user.password))) {
-            console.log("CAIU")
             return null;
         }
-        console.log(config)
-        const token = jwt.sign({ username: user.email }, config.secretKey, {
+
+        const token = jwt.sign({ id: user.id, username: user.username, email: user.email, cargo: permissionLevel[user.permissionLevel] }, config.secretKey, {
             expiresIn: '1h',
         });
 
@@ -63,9 +67,27 @@ async function loginUser(userData) {
     }
 }
 
-//function getUser() {
-//    return "success"
-//}
+async function getUser(id) {
+    try {
+        const user = await User.findOne({ where: { id: id } });
+
+        if (!user) {
+            throw new Error("Usuario Inexistente");
+        }
+
+        return user;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getAllUsers() {
+    try {
+        const users = await User.findAll()
+    } catch (error) {
+        throw error
+    }
+}
 
 module.exports = {
     createUser,
