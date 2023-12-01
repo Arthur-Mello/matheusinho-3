@@ -3,6 +3,7 @@
     flex-direction: column;
   }
 }
+
 .header {
   flex-wrap: wrap;
   position: fixed;
@@ -29,7 +30,7 @@
 .nav_logo,
 .nav_link,
 .button {
-  color: #fff;
+  color: #000;
 }
 
 .nav_logo {
@@ -46,8 +47,7 @@
 
 .button {
   padding: 6px 24px;
-  border: 2px solid #fff;
-  background: transparent;
+  border: 2px solid #4e4e4e;
   border-radius: 6px;
   cursor: pointer;
 }
@@ -55,4 +55,3 @@
 .button:active {
   transform: scale(0.98);
 }
-
