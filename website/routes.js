@@ -5,6 +5,7 @@ const alrealdyAuthenticated = require('./middleware/alrealdyAuthenticated');
 const isMedic = require('./middleware/isMedic')
 const controllers = {
   user: require("./controller/userController"),
+  consulta: require("./controller/consultaController")
 };
 
 router.get('/', alrealdyAuthenticated, (req, res) => {
@@ -58,6 +59,10 @@ router.get('/logout', authenticateToken, (req, res) => {
   res.redirect('/?message=logout');
 });
 
+router.get('/dashboard/consultas', authenticateToken, isMedic, async (req, res) => {
+  return res.send(controllers.consulta(req.user.id))
+
+});
 
 
 /*rotas mobile*/
