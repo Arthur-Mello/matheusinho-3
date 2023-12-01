@@ -19,7 +19,7 @@ router.get('/', alrealdyAuthenticated, (req, res) => {
 
 router.post("/cadastrar", async (req, res) => {
   try {
-    console.log("entrou no post")
+
     const message = await controllers.user.createUser(req.body);
     res.redirect(`/?message=${message}`);
   } catch (error) {
@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
   try {
     const token = await controllers.user.loginUser(req.body);
 
-    console.log('Token:', token);
+    
 
     if (token) {
       res.cookie('token', token, { httpOnly: true });
@@ -50,7 +50,7 @@ router.get("/dashboard", authenticateToken, isAdminOrMedic, async (req, res) => 
 
   if (req.user.cargo == "Médico") {
     const consultas = await controllers.consulta.getFiveConsultas(req.user.id);
-    console.log(consultas)
+  
     res.render('dashboard', { user: req.user, consultas: consultas });
   }
   res.render('dashboardAdmin', { user: req.user })
@@ -79,10 +79,10 @@ router.get("/usuario/:userId", authenticateToken, isAdmin, async (req, res) => {
   try {
     const userId = req.params.userId;
     const userDetails = await controllers.user.getUser(userId);
-    console.log(userDetails)
+ 
     res.render('usuario', { user: req.user, userDetails });
   } catch (error) {
-    console.log(error)
+ 
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -106,7 +106,7 @@ router.post("/atualizar", authenticateToken, isAdmin, async (req, res) => {
 
 
     const result = await controllers.user.updateUser(userId, updatedUserData);
-    console.log(result)
+  
     if (result === "success") {
       return res.redirect(`/usuario/${userId}`)
     } else if (result === "errorUsuarioInexistente") {
