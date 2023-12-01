@@ -6,19 +6,19 @@ function authenticateToken(req, res, next) {
 
     const token = req.cookies.token;
 
-    // Redirect authenticated users from the root path to /dashboard
+  
     if (req._parsedOriginalUrl && req._parsedOriginalUrl.pathname === "/" && req.user) {
         return res.redirect('/dashboard');
     }
 
-    // Additional logic to skip authentication for the root path
+    
     if (req._parsedOriginalUrl && req._parsedOriginalUrl.pathname === "/") {
         return next();
     }
 
     if (req._parsedUrl && req._parsedUrl.pathname !== "/login" && !token) {
         res.redirect(`/?message=errornaologado`);
-        return; // Add a return statement to exit the function after redirect
+        return; 
     }
 
     jwt.verify(token, config.secretKey, (err, user) => {
@@ -30,12 +30,12 @@ function authenticateToken(req, res, next) {
                 console.log('Error verifying token:', err);
                 res.redirect(`/?message=error`);
             }
-            return; // Add a return statement to exit the function after redirect
+            return;
         }
 
         console.log('User authenticated:', user);
         req.user = user;
-        next(); // Continue to the next middleware or route handler
+        next(); 
     });
 }
 
