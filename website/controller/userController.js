@@ -78,7 +78,7 @@ async function getUser(id) {
 
         return userWithCargo;
     } catch (error) {
-        console.log("aaabb")
+      
         throw error;
     }
 }
