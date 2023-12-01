@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Hospitalar</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/form.css" />
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/imgs/logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">
+                        <%= user?.username %>
+                    </span>
+                    <span class="profession">
+                        <%= user?.cargo %>
+                    </span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/dashboard">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/usuarios">
+                            <i class='bx bx-male icon'></i>
+                            <span class="text nav-text">Usuários</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div class="text">Sistema Unifil de Saúde</div>
+
+        <div class="wrapper" style="margin: 0 auto;">
+            <% if (users && users.length> 0) { %>
+                <ul class="album-list">
+                    <% users.forEach((usera, index)=> { %>
+                        <li class="album-list-item">
+                            <div style="display: flex; justify-content: space-between">
+                                <span class="album-marker">
+                                    <%= index + 1 + (currentPage - 1) * 10 %>
+                                </span>
+                                <div class="user-buttons">
+                                    <a href="/usuario/<%= usera.id %>" class="btn-primary">+ Informações</a>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <span class="user-username">
+                                    <%= usera.username %>
+                                </span>
+                                <div class="user-email">
+                                    <%= usera.email %>
+                                </div>
+                            </div>
+                        </li>
+                        <% }); %>
+                </ul>
+
+                <div class="pagination">
+                    <% if (currentPage> 1) { %>
+                        <a href="/users?page=<%= currentPage - 1 %>">Anterior</a>
+                        <% } %>
+
+                            <% for (let i=1; i <=totalPages; i++) { %>
+                                <% if (i===currentPage) { %>
+                                    <span class="current-page">
+                                        <%= i %>
+                                    </span>
+                                    <% } else { %>
+                                        <a href="/users?page=<%= i %>">
+                                            <%= i %>
+                                        </a>
+                                        <% } %>
+                                            <% } %>
+
+                                                <% if (currentPage < totalPages) { %>
+                                                    <a href="/users?page=<%= currentPage + 1 %>">Próximo</a>
+                                                    <% } %>
+                </div>
+                <% } else { %>
+                    <p>Não há nenhum usuário.</p>
+                    <% } %>
+        </div>
+
+
+    </section>
+
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle")
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        })
+    </script>
+</body>
+
+</html>

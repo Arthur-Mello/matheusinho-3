@@ -33,7 +33,7 @@ async function createUser(userData) {
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-        // Add the permissionLevel when creating a new user
+
         const user = await User.create({
             ...userData,
             password: hashedPassword
@@ -52,7 +52,7 @@ async function loginUser(userData) {
                 email: userData.email,
             },
         });
-        
+
         if (!user || !(await bcrypt.compare(userData.password, user.password))) {
             return null;
         }
@@ -74,22 +74,72 @@ async function getUser(id) {
         if (!user) {
             throw new Error("Usuario Inexistente");
         }
+        const userWithCargo = { ...user.dataValues, cargo: permissionLevel[user.permissionLevel] };
 
-        return user;
+        return userWithCargo;
     } catch (error) {
+      
         throw error;
     }
 }
 
-async function getAllUsers() {
+async function getUsers() {
+    const users = await User.findAll()
+   
+    return users;
+}
+
+async function getAllUsers(page, pageSize) {
     try {
-        const users = await User.findAll()
+        const users = await User.findAndCountAll({
+            offset: (page - 1) * pageSize,
+            limit: pageSize,
+
+        })
+        return {
+            rows: users.rows,
+            count: users.count,
+        };
     } catch (error) {
         throw error
     }
 }
 
+async function updateUser(userId, updatedUserData) {
+    try {
+        const existingUser = await User.findByPk(userId);
+
+        if (!existingUser) {
+            return "errorUsuarioInexistente";
+        }
+
+        const otherUserWithSameEmail = await User.findOne({
+            where: {
+                email: updatedUserData.email,
+            },
+        });
+
+
+        if (otherUserWithSameEmail && existingUser.id != otherUserWithSameEmail.id) {
+            return "errorEmailEmUso";
+        }
+
+        existingUser.username = updatedUserData.username;
+        existingUser.email = updatedUserData.email;
+        existingUser.permissionLevel = updatedUserData.permissionLevel;
+
+        await existingUser.save();
+
+        return "success";
+    } catch (error) {
+        return "error";
+    }
+}
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    getUser,
+    getAllUsers,
+    updateUser,
+    getUsers,
 };

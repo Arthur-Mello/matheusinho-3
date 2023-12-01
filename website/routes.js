@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const authenticateToken = require('./middleware/authenticateToken');
 const alrealdyAuthenticated = require('./middleware/alrealdyAuthenticated');
+const isAdminOrMedic = require('./middleware/isAdminOrMedic')
+const isAdmin = require('./middleware/isAdmin')
 const isMedic = require('./middleware/isMedic')
 const controllers = {
   user: require("./controller/userController"),
@@ -44,12 +46,80 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/dashboard", authenticateToken, isMedic, async (req, res) => {
-  res.render('dashboard', { user: req.user });
+router.get("/dashboard", authenticateToken, isAdminOrMedic, async (req, res) => {
+
+  if (req.user.cargo == "Médico") {
+    const consultas = await controllers.consulta.getFiveConsultas(req.user.id);
+    console.log(consultas)
+    res.render('dashboard', { user: req.user, consultas: consultas });
+  }
+  res.render('dashboardAdmin', { user: req.user })
 });
 
-router.get("/teste", authenticateToken, async (req, res) => {
-  res.render('teste');
+router.get("/usuarios", authenticateToken, isAdmin, async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.query;
+  try {
+
+    const users = await controllers.user.getAllUsers(parseInt(page), parseInt(pageSize));
+    res.render('usuarios', {
+      user: req.user,
+      users: users.rows,
+      totalCount: users.count,
+      totalPages: Math.ceil(users.count / parseInt(pageSize)),
+      currentPage: parseInt(page),
+    });
+  } catch (error) {
+    console.error('Error fetching paginated consultas:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+});
+
+router.get("/usuario/:userId", authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const userDetails = await controllers.user.getUser(userId);
+    console.log(userDetails)
+    res.render('usuario', { user: req.user, userDetails });
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post("/atualizar", authenticateToken, isAdmin, async (req, res) => {
+  const userId = req.body.userId;
+  const updatedUserData = {
+    username: req.body.username,
+    email: req.body.email,
+    permissionLevel: req.body.permissionLevel,
+  };
+
+
+  try {
+
+    const existingUser = await controllers.user.getUser(userId);
+
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+
+    const result = await controllers.user.updateUser(userId, updatedUserData);
+    console.log(result)
+    if (result === "success") {
+      return res.redirect(`/usuario/${userId}`)
+    } else if (result === "errorUsuarioInexistente") {
+      return res.status(404).json({ error: 'User not found' });
+    } else if (result === "errorEmailEmUso") {
+      return res.status(400).json({ error: 'Email is already in use by another user' });
+    } else {
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 router.get('/logout', authenticateToken, (req, res) => {
@@ -59,11 +129,125 @@ router.get('/logout', authenticateToken, (req, res) => {
   res.redirect('/?message=logout');
 });
 
-router.get('/dashboard/consultas', authenticateToken, isMedic, async (req, res) => {
-  return res.send(controllers.consulta(req.user.id))
+router.get('/consultas', authenticateToken, isMedic, async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.query;
 
+  try {
+    const consultas = await controllers.consulta.getAllConsultas(req.user.id, parseInt(page), parseInt(pageSize));
+    res.render('consultas', {
+      user: req.user,
+      consultas: consultas.rows,
+      totalCount: consultas.count,
+      totalPages: Math.ceil(consultas.count / parseInt(pageSize)),
+      currentPage: parseInt(page),
+    });
+  } catch (error) {
+
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
+router.get('/consultas/antigas', authenticateToken, isMedic, async (req, res) => {
+  const { page = 1, pageSize = 10 } = req.query;
+
+  try {
+    const consultas = await controllers.consulta.getAllConsultasPast(req.user.id, parseInt(page), parseInt(pageSize));
+    res.render('consultasAntigas', {
+      user: req.user,
+      consultas: consultas.rows,
+      totalCount: consultas.count,
+      totalPages: Math.ceil(consultas.count / parseInt(pageSize)),
+      currentPage: parseInt(page),
+    });
+  } catch (error) {
+
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/consultas/insert', authenticateToken, isMedic, async (req, res) => {
+  try {
+
+    const users = await controllers.user.getUsers();
+
+    const errorMessage = req.query.error;
+
+    res.render('adicionarConsulta', { user: req.user, users, errorMessage });
+  } catch (error) {
+    console.error('Error fetching users for consultation insertion:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+router.post('/consultas/insert', authenticateToken, isMedic, async (req, res) => {
+
+  try {
+    const { dataAgendada } = req.body;
+
+    const selectedDate = new Date(dataAgendada);
+    const currentDate = new Date();
+
+    if (selectedDate <= currentDate) {
+      return res.redirect('/consultas/insert?error=Data inválida. Selecione uma data e horário diferente do tempo atual.');
+    }
+
+    await controllers.consulta.insertConsulta(req.body);
+
+    return res.redirect('/consultas');
+  } catch (error) {
+    console.error('Error inserting consultation:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/consultas/details/:consultaId', authenticateToken, isMedic, async (req, res) => {
+  try {
+    const consultaId = req.params.consultaId;
+    const consultaDetails = await controllers.consulta.getConsultaDetails(consultaId);
+    res.render('consulta', { user: req.user, consultaDetails });
+  } catch (error) {
+    console.error('Error fetching consultation details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.post('/consultas/updateProntuario/:consultaId', authenticateToken, isMedic, async (req, res) => {
+  const { prontuario } = req.body;
+  const consultaId = req.params.consultaId;
+
+  try {
+    await controllers.consulta.updateProntuario(consultaId, prontuario);
+    res.redirect(`/consultas/details/${consultaId}`);
+  } catch (error) {
+    console.error('Error updating prontuario:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.post('/consultas/updateReceita/:consultaId', authenticateToken, isMedic, async (req, res) => {
+  const { receita } = req.body;
+  const consultaId = req.params.consultaId;
+
+  try {
+    await controllers.consulta.updateReceita(consultaId, receita);
+    res.redirect(`/consultas/details/${consultaId}`);
+  } catch (error) {
+    console.error('Error updating receita:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/consultas/updateAtestado/:consultaId', authenticateToken, isMedic, async (req, res) => {
+  const { atestado } = req.body;
+  const consultaId = req.params.consultaId;
+
+  try {
+    await controllers.consulta.updateAtestado(consultaId, atestado);
+    res.redirect(`/consultas/details/${consultaId}`);
+  } catch (error) {
+    console.error('Error updating atestado:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 /*rotas mobile*/
 
