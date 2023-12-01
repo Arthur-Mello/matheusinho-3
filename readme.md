@@ -14,7 +14,9 @@ npm install
 ## rode este comando para ele criar as DB existentes:
 
 sequelize db:migrate
+npm run sequelize db:seed:all -- --seeders-path seeder
 
 ## para rodar o projeto: 
 
 nodemon index.js 
+
