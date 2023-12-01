@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Hospitalar</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/list.css">
+    <link rel="stylesheet" href="/css/form.css" />
+
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/imgs/logo.png" alt="">
+                </span>
+                <div class="text logo-text">
+                    <span class="name">
+                        <%= userDetails.username %>
+                    </span>
+                    <span class="profession">
+                        <%= userDetails.cargo %>
+                    </span>
+                </div>
+            </div>
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/dashboard">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="/usuarios">
+                            <i class='bx bx-male icon'></i>
+                            <span class="text nav-text">Usuários</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </nav>
+
+    <section class="home">
+        <div class="text">Sistema Unifil de Saúde</div>
+        <div class="form_container active" style="opacity: 1; pointer-events: all;">
+            <div class="form active">
+                <form action="/atualizar" method="POST">
+                    <h2>Atualização de usuário</h2>
+                    <div class="input_box">
+                        <input type="text" name="username" placeholder="Insira o nome" required minlength="2"
+                            value="<%= userDetails.username %>" />
+                    </div>
+                    <div class="input_box">
+                        <input type="email" name="email" placeholder="teste@gmail.com" required
+                            value="<%= userDetails.email %>" />
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box" style="text-align: center;">
+                        <select name="permissionLevel" id="permissionLevel" required>
+                            <option value="0" <%=userDetails.permissionLevel===0 ? 'selected' : '' %>>Paciente</option>
+                            <option value="1" <%=userDetails.permissionLevel===1 ? 'selected' : '' %>>Médico</option>
+                            <option value="2" <%=userDetails.permissionLevel===2 ? 'selected' : '' %>>Admin</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="userId" value="<%= userDetails.id %>">
+                    <button class="button" type="submit">Atualizar</button>
+             
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle");
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+
+        pwShowHide = document.querySelectorAll(".pw_hide"),
+            pwShowHide.forEach((icon) => {
+                icon.addEventListener("click", () => {
+                    let getPwInput = icon.parentElement.querySelector("input");
+                    if (getPwInput.type === "password") {
+                        getPwInput.type = "text";
+                        icon.classList.replace("uil-eye-slash", "uil-eye");
+                    } else {
+                        getPwInput.type = "password";
+                        icon.classList.replace("uil-eye", "uil-eye-slash");
+                    }
+                });
+            });
+    </script>
+</body>
+
+</html>
