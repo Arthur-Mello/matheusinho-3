@@ -11,7 +11,12 @@ npm install
 ## crie a database hospital OU modifique o nome em website/config/config.json
 
 ## abra o projeto na pasta website (não abra na pasta matheusinho-3, se não ele vai criar novos arquivos.)
-## rode este comando para ele criar as DB existentes:
+
+## rode este comando para ele criar as db:
+
+## rode este comando para ele alimentar as DB existentes:
+
+npx sequelize-cli db:migrate
 
 sequelize db:migrate
 npm run sequelize db:seed:all -- --seeders-path seeder
