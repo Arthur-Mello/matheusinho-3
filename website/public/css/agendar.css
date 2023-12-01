@@ -1,0 +1,47 @@
+.insert-consulta {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.insert-consulta h2 {
+    color: #333;
+}
+
+.insert-consulta form {
+    display: grid;
+    gap: 15px;
+}
+
+.insert-consulta label {
+    font-weight: bold;
+}
+
+.insert-consulta select,
+.insert-consulta input[type="datetime-local"],
+.insert-consulta textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.insert-consulta button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.insert-consulta button:hover {
+    background-color: #2077c8;
+}

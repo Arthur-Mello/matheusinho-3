@@ -10,10 +10,10 @@
   <link rel="stylesheet" href="/css/home.css" />
   <link rel="stylesheet" href="/css/header.css" />
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-  <!-- Coding by CodingLab | www.codinglabweb.com -->
   <link rel="stylesheet" href="/css/sidebar.css">
+  <link rel="stylesheet" href="/css/list.css">
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
-  <!--<title>Dashboard Sidebar Menu</title>-->
+
 </head>
 
 <body>
@@ -48,30 +48,9 @@
             </a>
           </li>
 
+         
           <li class="nav-link">
-            <a href="#">
-              <i class='bx bxs-report icon'></i>
-              <span class="text nav-text">Prontuários</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="#">
-
-              <i class='bx bx-paste icon'></i>
-              <span class="text nav-text">Receitas</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="#">
-              <i class='bx bx-task-x icon'></i>
-              <span class="text nav-text">Atestados</span>
-            </a>
-          </li>
-
-          <li class="nav-link">
-            <a href="#">
+            <a href="/consultas">
               <i class='bx bx-injection icon'></i>
               <span class="text nav-text">Consultas</span>
             </a>
@@ -82,7 +61,7 @@
 
       <div class="bottom-content">
         <li class="">
-          <a href=/logout>
+          <a href="/logout">
             <i class='bx bx-log-out icon'></i>
             <span class="text nav-text">Logout</span>
           </a>
@@ -95,29 +74,44 @@
 
   <section class="home">
     <div class="text">Sistema Unifil de Saúde</div>
+
+    <div class="wrapper">
+      <h1>Próximas consultas</h1>
+      <% if (consultas && consultas.length> 0) { %>
+        <ol class="album-list" start="1">
+          <% for (const consulta of consultas) { %>
+            <li class="album-list-item">
+              <span class="album-info">
+                <!-- Displaying only the date (day, month, year) -->
+                <%= consultas[1].paciente.dataValues.username + ' - ' +
+                  consulta.dataAgendada.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' }) %>
+
+              </span>
+              <span class="album-info">
+                <!-- Displaying only the time -->
+                <%= consulta.dataAgendada.toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' }) %>
+              </span>
+            </li>
+            <% } %>
+        </ol>
+        <% } else { %>
+          <p>Você não tem nenhuma consulta agendada.</p>
+          <% } %>
+    </div>
+
+
+
+
   </section>
 
   <script>
     const body = document.querySelector('body'),
       sidebar = body.querySelector('nav'),
-      toggle = body.querySelector(".toggle"),
-      searchBtn = body.querySelector(".search-box"),
-      modeSwitch = body.querySelector(".toggle-switch"),
-      modeText = body.querySelector(".mode-text");
+      toggle = body.querySelector(".toggle")
     toggle.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     })
-    searchBtn.addEventListener("click", () => {
-      sidebar.classList.remove("close");
-    })
-    modeSwitch.addEventListener("click", () => {
-      body.classList.toggle("dark");
-      if (body.classList.contains("dark")) {
-        modeText.innerText = "Light mode";
-      } else {
-        modeText.innerText = "Dark mode";
-      }
-    });
+
   </script>
 </body>
 

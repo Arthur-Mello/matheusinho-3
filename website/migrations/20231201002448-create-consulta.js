@@ -1,6 +1,5 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('consultas', {
@@ -25,12 +24,8 @@ module.exports = {
           key: 'id',
         },
       },
-      data: {
+      dataAgendada: {
         type: Sequelize.DATE,
-        allowNull: false,
-      },
-      horarioAgendado: {
-        type: Sequelize.TIME,
         allowNull: false,
       },
       prontuario: {

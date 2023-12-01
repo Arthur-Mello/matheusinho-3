@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema Hospitalar</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link rel="stylesheet" href="/css/list.css" />
+    <link rel="stylesheet" href="/css/agendar.css" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/imgs/logo.png" alt="">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">
+                        <%= user?.username %>
+                    </span>
+                    <span class="profession">
+                        <%= user?.cargo %>
+                    </span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/dashboard">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/consultas">
+                            <i class='bx bx-injection icon'></i>
+                            <span class="text nav-text">Consultas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <% if (errorMessage) { %>
+            <p style="color: red;">
+                <%= errorMessage %>
+            </p>
+            <% } %>
+                <div class="text">Sistema Unifil de Saúde</div>
+
+                <section class="insert-consulta">
+                    <h2>Agendar consulta</h2>
+                    <form action="/consultas/insert" method="post">
+                        <label for="id_paciente">Paciente:</label>
+                        <select name="id_paciente" required>
+                            <% users.forEach(user=> { %>
+                                <% if (user.permissionLevel===0) { %>
+                                    <option value="<%= user.id %>">
+                                        <%= user.username %>
+                                    </option>
+                                    <% } %>
+                                        <% }); %>
+                        </select>
+
+
+                        <label for="id_medico">Médico:</label>
+                        <select name="id_medico" required>
+                            <% users.forEach(user=> { %>
+                                <% if (user.permissionLevel===1) { %>
+                                    <option value="<%= user.id %>">
+                                        <%= user.username %>
+                                    </option>
+                                    <% } %>
+                                        <% }); %>
+                        </select>
+
+                        <label for="dataAgendada">Data Agendada:</label>
+                        <input type="datetime-local" name="dataAgendada" required>
+
+                        <label for="prontuario">Prontuário:</label>
+                        <textarea name="prontuario" rows="4"></textarea>
+
+                        <label for="receita">Receita:</label>
+                        <textarea name="receita" rows="4"></textarea>
+
+                        <label for="atestado">Atestado:</label>
+                        <textarea name="atestado" rows="4"></textarea>
+
+                        <button type="submit">Agendar consulta</button>
+                    </form>
+                </section>
+
+
+
+
+
+    </section>
+
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle")
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        })
+    </script>
+</body>
+
+</html>
