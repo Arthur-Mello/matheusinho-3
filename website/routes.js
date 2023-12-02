@@ -211,6 +211,8 @@ router.get('/consultas/details/:consultaId', authenticateToken, isMedic, async (
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 router.post('/consultas/updateProntuario/:consultaId', authenticateToken, isMedic, async (req, res) => {
   const { prontuario } = req.body;
   const consultaId = req.params.consultaId;
@@ -248,12 +250,39 @@ router.post('/consultas/updateAtestado/:consultaId', authenticateToken, isMedic,
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+/**/
 
-/*rotas mobile*/
+router.get('/consultas/details/:consultaId', authenticateToken, async (req, res) => {
+  try {
+    const consultaId = req.params.consultaId;
+    const prontuarios = await controllers.consulta.getProntuarios(consultaId);
+    res.json({ prontuarios });
+  } catch (error) {
+    console.error('Error fetching prontuarios:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
-
-
-
+router.get('/consultas/details/:consultaId', authenticateToken, async (req, res) => {
+  try {
+    const consultaId = req.params.consultaId;
+    const receitasMedicas = await controllers.consulta.getReceitasMedicas(consultaId);
+    res.json({ receitasMedicas });
+  } catch (error) {
+    console.error('Error fetching receitas médicas:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+router.get('/consultas/details/:consultaId', authenticateToken, async (req, res) => {
+  try {
+    const consultaId = req.params.consultaId;
+    const atestados = await controllers.consulta.getAtestados(consultaId);
+    res.json({ atestados });
+  } catch (error) {
+    console.error('Error fetching atestados:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 
